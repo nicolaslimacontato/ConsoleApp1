@@ -1,66 +1,47 @@
-﻿using System;
+﻿Console.WriteLine("Polimorfismo");
+Setor setor = new Setor();
+setor.SetorTabela();
 
-Console.WriteLine("POO - Conta");
+Console.WriteLine("Identificação:");
 
-string[] opcao = ["(D)", "(S)"];
-
-Conta conta = new Conta();
-
-Console.WriteLine(conta.Saldo);
-Console.WriteLine(conta.Limite);
-
-Console.WriteLine("Olá bem vindo ao banco do Nicolau poderia informar seu saldo?");
-float saldoDigitado = float.Parse(Console.ReadLine());
-conta.Saldo = saldoDigitado + conta.Saldo;
-
-string continuar;
-float valor;
-
-etq1:
-Console.WriteLine($"\nEscolha uma opção\n\n{opcao[0]} Deposito.\n{opcao[1]} Saque.\n");
-string escolha = Console.ReadLine();
-
-switch (escolha.ToUpper())
+int idSetor;
+eqt1:
+Console.Write("Digite o Id do setor: ");
+if (!int.TryParse(Console.ReadLine(), out idSetor) || idSetor < 1 || idSetor > 3)
 {
-    case "D":
-        Console.WriteLine("\nVocê escolheu fazer um depósito.");
-        Console.WriteLine($"\nSeu saldo é de: R${conta.Saldo.ToString("c")}\n Qual a Quantia do Depósito?");
-        valor = float.Parse(Console.ReadLine());
-        conta.Depositar(valor);
-        Console.WriteLine($"\nSeu saldo é de: R${conta.Saldo.ToString("c")}\n é voce depositou {valor.ToString("c")} (Descontamos uma tarifa)");
-        Console.WriteLine($"\nQuer continuar?\n(1)Sim\n(2)Não\n");
-        continuar = Console.ReadLine();
-        if(continuar == "1")
+    Console.WriteLine("Id de setor inválido. Por favor, tente novamente.");
+    goto eqt1;
+}
+eqt2:
+Funcionario funcionario = setor.TesteFuncionario(idSetor);
+if (funcionario != null)
+{
+    ControlePonto controlePonto = new ControlePonto();
+eqt3:
+    Console.Write("Registre o ponto:\n(E) Entrada\n(S) Saída\n");
+    string registro = Console.ReadLine().ToUpper();
+    if (registro == "E" || registro == "S")
+    {
+        if (registro == "E")
         {
-            goto etq1;
-        }
-        break;
-    case "S":
-        Console.WriteLine("\nVocê escolheu fazer um saque.");
-    etq2:
-        Console.WriteLine($"\nSeu saldo é de: R${conta.Saldo.ToString("c")}\n Qual a Quantia do Saque?");
-        valor = float.Parse(Console.ReadLine());
-        if (valor >= conta.Limite)
-        {
-            Console.WriteLine($"\nO Seu limite foi atingido.");
-            goto etq2;
+            controlePonto.RegistraEntrada(funcionario);
         }
         else
         {
-            conta.Sacar(valor); Console.WriteLine($"\nSeu saldo é de: {conta.Saldo.ToString("c")}\n é voce Sacou {valor.ToString("c")} (Descontamos uma tarifa)");
+            controlePonto.RegistraSaida(funcionario);
         }
-        Console.WriteLine($"\nQuer continuar?\n(1)Sim\n(2)Não\n");
-        continuar = Console.ReadLine();
-        if(continuar == "1")
-        {
-            goto etq1;
-        }
-        break;
-    default:
-        Console.WriteLine("Opção inválida.");
-        goto etq1;
+    }
+    else
+    {
+        Console.WriteLine("Opção Inválida !");
+        goto eqt3;
+    }
+}
+else
+{
+    Console.WriteLine("Não existe esse id.");
+    goto eqt2;
 }
 
-Console.WriteLine("...Pressione qualquer tecla para encerrar.");
-
+Console.WriteLine("Pressione qualquer tecla para encerrar !");
 Console.ReadKey();
