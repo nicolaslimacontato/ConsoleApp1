@@ -1,6 +1,5 @@
 public class RolarDados
 {
-
     private static Random random = new Random();
 
     public static int RolarD4()
