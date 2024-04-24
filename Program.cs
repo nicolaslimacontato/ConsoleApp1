@@ -1,47 +1,14 @@
-﻿Console.WriteLine("Polimorfismo");
-Setor setor = new Setor();
-setor.SetorTabela();
+﻿using System;
+using System.Collections.Generic;
 
-Console.WriteLine("Identificação:");
+Console.Write("Olá jovem aventureiro qual é seu nome?: ");
+string nomeDoJogador = Console.ReadLine();
+nomeDoJogador = char.ToUpper(nomeDoJogador[0]) + nomeDoJogador.Substring(1).ToLower();
+Jogador jogador = new Jogador(nomeDoJogador);
 
-int idSetor;
-eqt1:
-Console.Write("Digite o Id do setor: ");
-if (!int.TryParse(Console.ReadLine(), out idSetor) || idSetor < 1 || idSetor > 3)
-{
-    Console.WriteLine("Id de setor inválido. Por favor, tente novamente.");
-    goto eqt1;
-}
-eqt2:
-Funcionario funcionario = setor.TesteFuncionario(idSetor);
-if (funcionario != null)
-{
-    ControlePonto controlePonto = new ControlePonto();
-eqt3:
-    Console.Write("Registre o ponto:\n(E) Entrada\n(S) Saída\n");
-    string registro = Console.ReadLine().ToUpper();
-    if (registro == "E" || registro == "S")
-    {
-        if (registro == "E")
-        {
-            controlePonto.RegistraEntrada(funcionario);
-        }
-        else
-        {
-            controlePonto.RegistraSaida(funcionario);
-        }
-    }
-    else
-    {
-        Console.WriteLine("Opção Inválida !");
-        goto eqt3;
-    }
-}
-else
-{
-    Console.WriteLine("Não existe esse id.");
-    goto eqt2;
-}
+Console.WriteLine($"\n{jogador.Nome} você é um aventureiro de cavernas qual é sua classe?\n\n(G) Guerreiro: Defesa Alta, Dano: Baixo\n(M) Mago: Defesa Baixa, Dano Alto\n");
+string escolhaDaClasse = Console.ReadLine().ToUpper();
+jogador.EscolherClasse(escolhaDaClasse);
 
-Console.WriteLine("Pressione qualquer tecla para encerrar !");
+Console.WriteLine("\nPressione qualquer tecla para encerrar !");
 Console.ReadKey();
